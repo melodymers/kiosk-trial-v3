@@ -4,16 +4,30 @@ import { useNavigate } from 'react-router-dom'
 import {
   ArrowLeftIcon,
   UserIcon,
-  ShieldCheckIcon,
   FileTextIcon,
   SmartphoneIcon,
-  CarIcon,
+  IdCardIcon,
   ClipboardListIcon,
 } from 'lucide-react'
 
+// Custom image component for PNG icons
+const ImageIcon = ({ src, alt }: { src: string; alt: string }) => (
+  <img src={src} alt={alt} className="w-8 h-8 object-contain" />
+)
+
 // Inline ServiceCard component (no external import needed)
 const ServiceCard = ({ service, index }: { service: any; index: number }) => {
-  const Icon = service.icon
+  const renderIcon = () => {
+    if (service.isImage) {
+      return <img src={service.iconSrc} alt={service.title} className="w-25 h-25 object-contain" />
+    }
+    if (service.icon) {
+      const IconComponent = service.icon
+      return <IconComponent className="w-10 h-10" />
+    }
+    return null
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -22,8 +36,8 @@ const ServiceCard = ({ service, index }: { service: any; index: number }) => {
       className="group"
     >
       <div className="w-full p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200 hover:-translate-y-1">
-        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${service.color} text-white shadow-lg`}>
-          <Icon className="w-8 h-8" />
+        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${service.color} text-white shadow-lg p-2`}>
+          {renderIcon()}
         </div>
         <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
           {service.title}
@@ -33,6 +47,7 @@ const ServiceCard = ({ service, index }: { service: any; index: number }) => {
     </motion.div>
   )
 }
+
 
 // User info
 const userInfo = {
@@ -47,8 +62,9 @@ const services = [
     id: 1,
     title: 'NBI Clearance',
     description: 'Apply for NBI clearance certificate',
-    icon: ShieldCheckIcon,
-    color: 'bg-blue-500',
+    isImage: true,        
+    iconSrc: '/NBI-CLEARANCE.png', 
+    color: 'bg-blue-100',
   },
   {
     id: 2,
@@ -66,9 +82,9 @@ const services = [
   },
   {
     id: 4,
-    title: "Driver's License",
-    description: "Apply or renew driver's license",
-    icon: CarIcon,
+    title: "Passport Application",
+    description: "Apply or renew your passport",
+    icon: IdCardIcon,
     color: 'bg-orange-500',
   },
   {
@@ -85,6 +101,7 @@ export function Services() {
 
   return (
     <div className="min-h-screen w-screen bg-gray-100 flex flex-col">
+      
       {/* Header */}
       <motion.header
         initial={{ opacity: 0, y: -20 }}
