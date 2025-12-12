@@ -22,8 +22,8 @@ export function ReviewInfoPage() {
     authorizedStaff: 'Ms. Sarah Martinez',
     passId: '2509678',
   }
-  const handlePrint = () => {
-    window.print()
+  const handleProceed = () => {
+    navigate('/services')
   }
   return (
     <div className="min-h-screen w-screen bg-gray-100 flex flex-col">
@@ -268,11 +268,12 @@ export function ReviewInfoPage() {
                 className="mt-3"
               >
                 <button
-                  onClick={handlePrint}
-                  className="w-full px-6 py-4 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors shadow-sm"
-                >
-                  PROCEED
-                </button>
+                    onClick={handleProceed}
+                    className="w-full px-6 py-4 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors shadow-sm"
+                    >
+                    PROCEED
+                    </button>
+
               </motion.div>
             </div>
           </div>
