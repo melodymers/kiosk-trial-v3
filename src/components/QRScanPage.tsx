@@ -44,14 +44,26 @@ export function QRScanPage() {
     };
   }, [navigate, isScanning]);
 
+  const [scannedData, setScannedData] = useState('');
+
   const handleSearch = () => {
     if (passId.trim()) {
+      setScannedData(passId);
       setShowSuccess(true);
       setTimeout(() => {
-        navigate('/review');
+        navigate(`/review?passId=${passId}`);
       }, 1500);
     }
   };
+  
+  (decodedText: string) => {
+    setScannedData(decodedText);
+    setShowSuccess(true);
+    setTimeout(() => {
+      navigate(`/review?passId=${decodedText}`);
+    }, 1500);
+  }
+  
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
